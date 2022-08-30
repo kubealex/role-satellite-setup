@@ -1,0 +1,62 @@
+- name: Register system with Red Hat Subscription Manager
+  community.general.redhat_subscription:
+    state: present
+    username: "{{ rhsm_user }}"
+    password: "{{ rhsm_password }}"
+    pool_ids: "{{ rhsm_pool_id }}"
+
+- name: Disable all RHSM repositories
+  community.general.rhsm_repository:
+    name: '*'
+    state: disabled
+
+- name: Enable required RHSM repositories
+  community.general.rhsm_repository:
+    name: "{{ rh_satellite_repos }}"
+    state: enabled
+
+- name: Ensure all packages are updated
+  ansible.builtin.yum:
+    name: '*'
+    state: latest # noqa package-latest
+
+- name: Enable satellite module
+  ansible.builtin.command: "dnf -y module enable satellite:el8"
+
+- name: Install satellite packages
+  ansible.builtin.yum:
+    name: "{{ rh_satellite_packages }}"
+    state: latest # noqa package-latest
+
+- name: Ensure required services are enabled
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop: "{{ rh_satellite_services }}"
+
+- name: Allow ports for satellite zone
+  ansible.posix.firewalld:
+    zone: public
+    state: enabled
+    permanent: true
+    port: "{{ item }}"
+  loop: "{{ rh_satellite_ports }}"
+
+- name: Reload firewalld service
+  ansible.builtin.service:
+    name: firewalld
+    state: restarted
+
+- name: Install satellite
+  ansible.builtin.shell: |
+    satellite-installer --scenario satellite \
+    --foreman-initial-organization "{{ rh_satellite_organization | default('Red Hat', true) }}" \
+    --foreman-initial-location "{{ rh_satellite_location | default('Raleigh', true) }}" \
+    --foreman-initial-admin-username "{{ rh_satellite_admin_username | default('admin', true) }}" \
+    --foreman-initial-admin-password "{{ rh_satellite_admin_password | default('redhat', true) }}" \
+    --enable-foreman-plugin-rh-cloud \
+    --foreman-proxy-plugin-remote-execution-ssh-install-key true
+
+- name: Reboot server
+  ansible.builtin.reboot:
