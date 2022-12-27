@@ -54,9 +54,7 @@
     --foreman-initial-organization "{{ rh_satellite_organization | default('Red Hat', true) }}" \
     --foreman-initial-location "{{ rh_satellite_location | default('Raleigh', true) }}" \
     --foreman-initial-admin-username "{{ rh_satellite_admin_username | default('admin', true) }}" \
-    --foreman-initial-admin-password "{{ rh_satellite_admin_password | default('redhat', true) }}" \
-    --enable-foreman-plugin-rh-cloud \
-    --foreman-proxy-plugin-remote-execution-ssh-install-key true
+    --foreman-initial-admin-password "{{ rh_satellite_admin_password | default('redhat', true) }}"
 
 - name: Reboot server
   ansible.builtin.reboot:
