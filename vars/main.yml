@@ -24,3 +24,4 @@ rh_satellite_packages:
   - satellite
   - chrony
   - sos
+  - tmux
