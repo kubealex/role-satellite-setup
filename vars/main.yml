@@ -25,3 +25,4 @@ rh_satellite_packages:
   - chrony
   - sos
   - tmux
+  - firewalld
