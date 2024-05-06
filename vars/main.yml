@@ -17,8 +17,8 @@ rh_satellite_ports:
 rh_satellite_repos:
   - rhel-8-for-x86_64-baseos-rpms
   - rhel-8-for-x86_64-appstream-rpms
-  - satellite-6.14-for-rhel-8-x86_64-rpms
-  - satellite-maintenance-6.14-for-rhel-8-x86_64-rpms
+  - satellite-6.15-for-rhel-8-x86_64-rpms
+  - satellite-maintenance-6.15-for-rhel-8-x86_64-rpms
 
 rh_satellite_packages:
   - satellite
