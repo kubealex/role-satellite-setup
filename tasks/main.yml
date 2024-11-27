@@ -15,15 +15,12 @@
     state: enabled
 
 - name: Ensure all packages are updated
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: '*'
     state: latest # noqa package-latest
 
-- name: Enable satellite module
-  ansible.builtin.command: "dnf -y module enable satellite:el8"
-
 - name: Install satellite packages
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ rh_satellite_packages }}"
     state: latest # noqa package-latest
 
@@ -48,12 +45,16 @@
     state: restarted
 
 - name: Install satellite
-  ansible.builtin.shell: |
-    satellite-installer --scenario satellite \
-    --foreman-initial-organization "{{ rh_satellite_organization | default('Red Hat', true) }}" \
-    --foreman-initial-location "{{ rh_satellite_location | default('Raleigh', true) }}" \
-    --foreman-initial-admin-username "{{ rh_satellite_admin_username | default('admin', true) }}" \
-    --foreman-initial-admin-password "{{ rh_satellite_admin_password | default('redhat', true) }}"
+  ansible.builtin.include_role:
+    name: redhat.satellite_operations.installer
+    vars:
+      satellite_installer_scenario: satellite
+      satellite_installer_package: satellite
+      satellite_installer_options:
+        - "--foreman-initial-organization {{ rh_satellite_organization | default('Red Hat', true) }}"
+        - "--foreman-initial-location {{ rh_satellite_location | default('Raleigh', true) }}"
+        - "--foreman-initial-admin-username {{ rh_satellite_admin_username | default('admin', true) }}"
+        - "--foreman-initial-admin-password {{ rh_satellite_admin_password | default('redhat', true) }}"
 
 - name: Reboot server
   ansible.builtin.reboot:

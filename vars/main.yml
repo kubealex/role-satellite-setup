@@ -15,13 +15,12 @@ rh_satellite_ports:
   - 69/udp
 
 rh_satellite_repos:
-  - rhel-8-for-x86_64-baseos-rpms
-  - rhel-8-for-x86_64-appstream-rpms
-  - satellite-6.15-for-rhel-8-x86_64-rpms
-  - satellite-maintenance-6.15-for-rhel-8-x86_64-rpms
+  - rhel-9-for-x86_64-baseos-rpms
+  - rhel-9-for-x86_64-appstream-rpms
+  - satellite-6.16-for-rhel-9-x86_64-rpms
+  - satellite-maintenance-6.16-for-rhel-9-x86_64-rpms
 
 rh_satellite_packages:
-  - satellite
   - chrony
   - sos
   - tmux
