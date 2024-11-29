@@ -69,9 +69,9 @@
       - '--foreman-initial-location {{ rh_satellite_location | default("Raleigh", true) }}'
       - '--foreman-initial-admin-username {{ rh_satellite_admin_username | default("admin", true) }}'
       - '--foreman-initial-admin-password {{ rh_satellite_admin_password | default("redhat", true) }}'
-      - '--certs-server-cert {{ rh_satellite_cert_path | default("/root/satellite_cert/satellite.pem", true) }}'
-      - '--certs-server-key {{ rh_satellite_cert_key_path | default("/root/satellite_cert/satellite.key", true) }}'
-      - '--certs-server-ca-cert {{ rh_satellite_ca_path | default("/root/satellite_cert/ca_cert.pem", true) }}'
+      - '--certs-server-cert {{ rh_satellite_cert_path | default("/root/satellite-certs/satellite.pem", true) }}'
+      - '--certs-server-key {{ rh_satellite_cert_key_path | default("/root/satellite-certs/satellite.key", true) }}'
+      - '--certs-server-ca-cert {{ rh_satellite_ca_path | default("/root/satellite-certs/ca_cert.pem", true) }}'
 
 - name: Reboot server
   ansible.builtin.reboot:
