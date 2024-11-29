@@ -5,3 +5,7 @@ rh_satellite_organization:
 rh_satellite_location:
 rh_satellite_admin_username:
 rh_satellite_admin_password:
+rh_satellite_configure_ssl: false
+rh_satellite_cert_path:
+rh_satellite_cert_key_path:
+rh_satellite_ca_path:
